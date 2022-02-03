@@ -20,7 +20,7 @@ struct Question
 {
     string question = " ", var_answers = " ";  int answer = 0;
     bool check_answer(int num)
-    {
+    { 
         return (answer == num);
     }
 };
