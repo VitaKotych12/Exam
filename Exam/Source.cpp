@@ -26,19 +26,7 @@ class  Login : public Guest {
 	Guest g;
 public:
 
-	cout << "Enter login: ";
-	cin >> g.login;
 
-	cout << "Enter password(it must contain only numbers): ";
-	cin >> g.password;
-
-
-	ofstream fout("LoginG.txt");
-	if (fout.is_open()) {
-		text_oarchive oa(fout);
-		oa << mp;
-		fout.close();
-	}
 
 };
 int main() {
