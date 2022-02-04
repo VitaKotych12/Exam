@@ -276,6 +276,7 @@ class LogPass{
     string Login;
     string Password;
 public:
+   
     LogPass(string L, string P)
     {
         Login = L;
@@ -285,6 +286,7 @@ public:
         return  (Login == l.Login && Password == p.Password);
     }
 };
+
 int menu1() {
     int log;
     cout << "\n0 - Exit";
@@ -303,8 +305,6 @@ int menu2() {
     int choice2;
     cin >> choice2;
     return choice2;
-
-
 }
 int menu3() {
     int choice3;
@@ -315,12 +315,30 @@ int menu3() {
     cin >> choice3;
     return choice3;
 }
+class Login {
+    string user;
+    string password;
+public:
+    void login_user() {
+                cout << "\n\n";
+                cout << "\t----------------" << " Registeration " << "----------------" << endl;
+                cout << "Login: ";
+                cin >> user;
+                cout << "password: ";
+                cin >> password;
 
+                cout << "\n\n";
+                cout << "Registered Successfully!" << "\n";
+                cout << "\n\n";
+    }
+};
 int main() {
     tests t;
+    Login log;
     string login, password;
     switch (menu1()) {
     case 1:
+        log.login_user();
         cout << "\t----------------" << " Login User " << "----------------" << "\n";
         cout << "Login  ";
         cin >> login;
