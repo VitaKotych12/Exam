@@ -3,7 +3,9 @@
 #include<map>
 #include<fstream>
 #include<algorithm>
+#include <forward_list>
 #include<vector>
+#include<list>
 using namespace std;
 
 struct Question
@@ -240,7 +242,7 @@ class tests {
 
         questions[3].var_answers = "4) Has she got an oscar \n1 - yes  2 - no \n\n";
         questions[3].answer = 1;
-
+         
         questions[4].var_answers = "4) Her high is \n1 - 1,70   2 - 1,64   3 - 1,49   4 - 1,69\n\n";
         questions[4].answer = 4;
 
@@ -259,18 +261,75 @@ class tests {
         }
         cout << "\nRight answers - " << right;
         cout << "\nWrong answers - " << wrong;
+
+
         mark = mark / count_of_questions;
         for (int i = 0; i < count_of_questions; i++)
             res = right * mark;
         cout << "\nYour GPA is " << res << "\n";
-        count_of_questions = 6;
-        right = 0; wrong = 0; res = 0;  mark = 12;
+
     }
 
 
 
 };
+class guest {
+    string password, login;
+public:
+    guest() { login = password = " "; }
 
+    guest(string password, string login) {
+        this->login = login;
+        this->password = password;
+    }
+    void set() {
+        cout << "Enter login : ";
+        cin >> login;
+        cout << "Enter  password  : ";
+        cin >> password;
+    }
+    void print()const {
+        cout << "login : " << login << "\n";
+        cout << "password  : " << password << "\n";
+    }
+
+    string get_pass() {
+        return password;
+    }
+    string get_login() {
+        return login;
+    }
+
+
+};
+class admin {
+    map<string,list<guest>> m;
+public: 
+   /* void add_new_user(string login, string password)
+    {
+        auto it = m.find(login);
+        if (it != m.end())
+        {
+            it->second.push_back(guest(password));
+        }
+        m.insert({ login , list<guest>{guest(password)} });
+    }*/
+
+    void remove_login(string login) {
+        if (m.find(login) == m.end()) {
+            cout << "Not Found\n";
+        }
+        else {
+            auto it = m.find(login);
+            it->second.clear();
+            m.erase(it);
+            cout << "Delete\n";
+        };
+    }
+
+
+
+};
 
 class LogPass{
     string Login;
@@ -281,6 +340,39 @@ public:
     {
         Login = L;
         Password = P;
+    }
+    void login_user() {
+        ofstream fout("Registration.txt",ios::app); /* создание потока fout и открытие файла с именем massiv.dat для записи */
+
+        if (!fout) cout << "Cannot open file\n";
+        else {
+            cout << "\n\n";
+            cout << "\t----------------" << " Registeration " << "----------------" << endl;
+            cout << "Login: ";
+            cin >> Login;
+            cout << "password: ";
+            cin >> Password;
+
+            cout << "\n\n";
+            cout << "Registered Successfully!" << "\n";
+            cout << "\n\n";
+            fout << " " << Login <<"  "<< Password;;
+        }
+        fout.close();
+        string line;
+
+       ifstream in("Registration.txt"); // окрываем файл для чтения
+        if (in.is_open())
+        {
+            while (getline(in, line))
+            {
+                cout << line << "\n";
+            }
+        }
+        else {
+            cout << " error";
+        }
+        in.close();
     }
     int acces(LogPass l,LogPass p) {
         return  (Login == l.Login && Password == p.Password);
@@ -315,39 +407,33 @@ int menu3() {
     cin >> choice3;
     return choice3;
 }
-class Login {
-    string user;
-    string password;
-public:
-    void login_user() {
-                cout << "\n\n";
-                cout << "\t----------------" << " Registeration " << "----------------" << endl;
-                cout << "Login: ";
-                cin >> user;
-                cout << "password: ";
-                cin >> password;
+int menu_admin() {
+    int choice;
+    cout << "\t0 - Exit \n";
+    cout << "\t1 - Add new profile  \n";
+    cout << "\t2 - Delete profile  \n";
+    cout << "\t3 - Exit \n";
+    cout << "Enter your choice : ";
+    cin >> choice;
+    return choice;
 
-                cout << "\n\n";
-                cout << "Registered Successfully!" << "\n";
-                cout << "\n\n";
-    }
-};
+}
+
 int main() {
-    tests t;
-    Login log;
-    string login, password;
+    tests t; string login, password; LogPass l(login, password);
+    LogPass user(login, password);
+    bool  acc = false;
+    acc = user.acces(l, l);
+
     switch (menu1()) {
-    case 1:
-        log.login_user();
+       case 1:
+        l.login_user();
         cout << "\t----------------" << " Login User " << "----------------" << "\n";
         cout << "Login  ";
         cin >> login;
         cout << "Password  ";
         cin >> password;
-        LogPass l(login, password);
-        LogPass user("1", "1");
-        bool  acc = false;
-        acc = user.acces(l, l);
+     
         if (acc) {
             cout << "\n" << "loged in Successfully!" << "\n";
             cout << "WELCOME  " << login << " !";
@@ -356,57 +442,57 @@ int main() {
             cout << "There is no account with this log ";
             break;
         }
+   
         switch (menu2()) {
         case 1:
             ////////////////////////////////////////
             switch (menu3()) {
             case 0:
-                menu2();
+                menu1();
             case 1:
                 t.test_programing();
                 break;
             case 2:
                 t.test_All_programing(); break;
             }
-            menu2(); 
+            menu2();
         case 2:
             ////////////////////////////////////////
             switch (menu3()) {
             case 0:
-                menu2();
+                menu1();
             case 1:
-                t.test_elementary_math();
-                break;
+                t.test_elementary_math(); break;
             case 2:
                 t.test_high_math(); break;
-                }
+            }
             menu2();
         case 3:
             ////////////////////////////////////////
             switch (menu3()) {
             case 0:
-                menu2();
+                menu1();
             case 1:
-                t.test_elementary_films();
-                break;
+                t.test_elementary_films(); break;
             case 2:
-                t.test_high_films(); break;
+                t.test_high_films();  break;
             }
             menu2();
         }
     
     }
-
     switch (menu1() == 2) {
     case 1:
         ///////////////////// admin
+        admin a; string delete_log;
+
+        l.login_user();
         cout << "\t----------------" << " Login Admin " << "----------------" << "\n";
         cout << "Login  ";
         cin >> login;
         cout << "Password  ";
         cin >> password;
-        LogPass l(login, password);
-        LogPass admin("2", "2");
+        LogPass admin(login, password);
         bool  acc = false;
         acc = admin.acces(l, l);
         if (acc) {
@@ -416,10 +502,23 @@ int main() {
             cout << "There is no account with this log ";
             break;
         }
+        switch (menu_admin()) {
+        case 0:
+            menu2();
+        case 1:
+            break;
+        case 2:
+            cout << "Enter login which you want to delete : ";
+            cin >> delete_log;
+            a.remove_login(delete_log);
+            break;
 
-    
 
-    }
+
+        }
+
+
+        }
         ////////////////////////////////////////
 
         //int choice2 = menu_user();
@@ -467,7 +566,7 @@ int main() {
                 t.test_high_math();
                 break;
             }*/
-
+    
     
   
 
