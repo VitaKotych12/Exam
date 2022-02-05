@@ -425,7 +425,7 @@ int main() {
         l.login_user();
         cout << "\t----------------" << " Login User " << "----------------" << "\n";
         cout << "Login  ";
-        cin >> login;
+        cin >> login; 
         cout << "Password  ";
         cin >> password;
 
