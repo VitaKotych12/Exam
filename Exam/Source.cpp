@@ -400,7 +400,7 @@ public:
             cin >> Login;
             cout << "password: ";
             cin >> Password;
-
+             
             cout << "\n\n";
             cout << "\n\n";
             cout << "Registered Successfully!" << "\n";
